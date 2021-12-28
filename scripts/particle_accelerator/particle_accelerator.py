@@ -75,7 +75,6 @@ for frame in range(FRAMES_ACCELERATION):
     led_vector_1 = (threshed_leds_1*254).dot(PARTICLE_1_COLOR).flatten()
     led_vector_2 = (threshed_leds_2*254).dot(PARTICLE_2_COLOR).flatten()
     led_vector = np.maximum(led_vector_1, led_vector_2)
-    # led_vector[led_vector == 0] = 20
 
     led_row = [frame_id]
     led_row.extend(led_vector.tolist())
@@ -89,7 +88,6 @@ for frame in range(EMPTY_FRAMES):
     output_data.append(led_row)
     frame_id += 1
 
-
 # Define explosion and cooldown formula
 f_explosion_radius = lambda t: t
 f_cooldown_intensity = lambda t: 1.0 - t if t < 1.0 else 0.0
@@ -100,18 +98,17 @@ for frame in range(FRAMES_EXPLOSION):
     distances = np.linalg.norm(coords - explosion_center, axis=1, keepdims=True)
     threshed_leds = distances < explosion_radius
     led_vector = (threshed_leds*254).dot(EXPLOSION_COLOR).flatten()
-    # led_vector[led_vector == 0] = 20
 
     led_row = [frame_id]
     led_row.extend(led_vector.tolist())
     output_data.append(led_row)
     frame_id += 1
 
+# Create cooldown frames
 for frame in range(FRAMES_COOLDOWN):
     cooldown_intensity = f_cooldown_intensity(frame/FRAMES_COOLDOWN)
     threshed_leds = np.ones((coords.shape[0], 1))
     led_vector = cooldown_intensity*(threshed_leds*254).dot(EXPLOSION_COLOR).flatten()
-    # led_vector[led_vector == 0] = 20
 
     led_row = [frame_id]
     led_row.extend(led_vector.tolist())
