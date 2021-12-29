@@ -63,6 +63,6 @@ for center in range(window_center_start, window_center_end):
         frame_id += 1
 
 # Write CSV
-with open('running_text.csv', 'w') as f:
+with open('running_image.csv', 'w') as f:
     write = csv.writer(f)
     write.writerows(output_data)
